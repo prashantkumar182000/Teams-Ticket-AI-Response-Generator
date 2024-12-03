@@ -1,99 +1,195 @@
-# microsoft-teams-ai-ticket-response-app
 
-creating a Microsoft Teams AI Ticket Response Assistant app that allows users to submit queries, receive AI-generated responses, and interact with these responses within Microsoft Teams.
+# Microsoft Teams AI Ticket Response Assistant
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to:
+The **Microsoft Teams AI Ticket Response Assistant** is a powerful application designed to assist teams in managing ticket responses using AI. Built with modern technologies, this tool integrates seamlessly with Microsoft Teams to streamline ticket handling and enhance productivity.
 
-- Use [LUIS](https://www.luis.ai) to implement core AI capabilities
-- Implement a multi-turn conversation using Dialogs
-- Handle user interruptions for such things as `Help` or `Cancel`
-- Prompt for and validate requests for information from the user
+---
+
+## Table of Contents
+
+1. [Features](#features)
+2. [Prerequisites](#prerequisites)
+3. [Installation](#installation)
+4. [Environment Configuration](#environment-configuration)
+5. [Running the Application](#running-the-application)
+6. [Project Structure](#project-structure)
+7. [Usage Guide](#usage-guide)
+8. [API Reference](#api-reference)
+9. [Contributing](#contributing)
+10. [License](#license)
+
+---
+
+## Features
+
+- **AI-Driven Ticket Responses**: Automatically generate responses for tickets using Hugging Face models.
+- **Interactive Response Cards**: Accept, edit, or refine AI-generated responses.
+- **Feedback Collection**: Gather user feedback to improve AI response accuracy.
+- **Admin Settings**: Manage API keys, endpoints, and toggle app features.
+- **Seamless Integration**: Works directly within Microsoft Teams.
+
+---
 
 ## Prerequisites
 
-This sample **requires** prerequisites in order to run.
+Before running this application, ensure you have the following installed:
 
-### Overview
+- **Node.js** (v16 or above)
+- **npm** or **yarn**
+- Access to:
+  - **Microsoft Azure Bot Framework** credentials
+  - **Hugging Face API** keys
 
-This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding.
+---
 
-- [Node.js](https://nodejs.org) version 10.14.1 or higher
+## Installation
 
+1. Clone the repository:
 
-    ```bash
-    # determine node version
-    node --version
-    ```
+   ```bash
+   git clone <repository-url>
+   cd <repository-name>
+   ```
 
-### Create a LUIS Application to enable language understanding
+2. Install dependencies:
 
-The LUIS model for this example can be found under `cognitiveModels/FlightBooking.json` and the LUIS language model setup, training, and application configuration steps can be found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=javascript).
+   ```bash
+   npm install
+   ```
 
-Once you created the LUIS model, update `.env` with your `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName`.
+---
 
-```text
-LuisAppId="Your LUIS App Id"
-LuisAPIKey="Your LUIS Subscription key here"
-LuisAPIHostName="Your LUIS App region here (i.e: westus.api.cognitive.microsoft.com)"
+## Environment Configuration
+
+1. Create a `.env` file in the project root and add the following variables:
+
+   ```plaintext
+   REACT_APP_MICROSOFT_APP_ID=<Your Microsoft App ID>
+   REACT_APP_MICROSOFT_APP_PASSWORD=<Your Microsoft App Password>
+   BOT_ENDPOINT=<Your Bot's Endpoint URL>
+   REACT_APP_AI_API_URL=<Your Hugging Face API URL>
+   REACT_APP_API_KEY=<Your Hugging Face API Key>
+   ```
+
+2. Replace the placeholders with your actual values.
+
+---
+
+## Running the Application
+
+1. Start the development server:
+
+   ```bash
+   npm start
+   ```
+
+2. Open the application in your browser at [http://localhost:3000](http://localhost:3000).
+
+3. For a production build:
+
+   ```bash
+   npm run build
+   ```
+
+4. Deploy the build directory to your preferred hosting platform.
+
+---
+
+## Project Structure
+
+```plaintext
+src/
+├── components/         # UI Components
+├── hooks/              # Custom Hooks
+├── pages/              # Application Pages
+├── services/           # API Service Layer
+├── utils/              # Utility Functions
+├── App.tsx             # Root Component
+├── index.tsx           # Application Entry Point
+public/
+├── index.html          # HTML Template
+.env                    # Environment Variables
+package.json            # Dependencies and Scripts
 ```
 
-## To run the bot
+---
 
-- Install modules
+## Usage Guide
 
-    ```bash
-    npm install
-    ```
-- Build the bot source code
+### Submitting a Query
+1. Navigate to the home page.
+2. Enter your query in the input field.
+3. Click **Submit Query** to receive an AI-generated response.
 
-    ```bash
-    npm run build
-    ```
-- Setup LUIS
+### Interactive Response Card
+- **Accept**: Confirm the response as is.
+- **Edit**: Modify the response manually.
+- **Refine**: Generate an improved version of the response.
 
-The prerequisite outlined above contain the steps necessary to provision a language understanding model on www.luis.ai.  Refer to _Create a LUIS Application to enable language understanding_ above for directions to setup and configure LUIS.
+### Feedback Form
+1. Rate the AI response (1–5 stars).
+2. Provide additional comments if needed.
+3. Submit the feedback.
 
-- Start the bot
+---
 
-    ```bash
-    npm start
-    ```
-## Testing the bot using Bot Framework Emulator
+## API Reference
 
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+### Hugging Face Model API
 
-- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- **Endpoint**: `https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3`
+- **Method**: `POST`
+- **Headers**:
+  ```json
+  {
+    "Authorization": "Bearer <Your API Key>",
+    "Content-Type": "application/json"
+  }
+  ```
+- **Request Body**:
+  ```json
+  {
+    "inputs": "<Your Query>"
+  }
+  ```
 
-### Connect to the bot using Bot Framework Emulator
+---
 
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
+## Contributing
 
-## Deploy the bot to Azure
+Contributions are welcome! Follow these steps:
 
-### Publishing Changes to Azure Bot Service
+1. Fork the repository.
+2. Create a new branch:
 
-    ```bash
-    # build the TypeScript bot before you publish
-    npm run build
-    ```
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+3. Commit your changes:
 
-## Further reading
+   ```bash
+   git commit -m "Add your message"
+   ```
 
-- [Bot Framework Documentation](https://docs.botframework.com)
-- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
-- [Gathering Input Using Prompts](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
-- [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [TypeScript](https://www.typescriptlang.org)
-- [Restify](https://www.npmjs.com/package/restify)
-- [dotenv](https://www.npmjs.com/package/dotenv)
+4. Push the branch:
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. Submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## Author
+
+Developed by [Prashant Kumar](https://prashantkumar60099.netlify.app/).  
+GitHub: [@prashantkumar182000](https://github.com/prashantkumar182000)
+```
